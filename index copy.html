@@ -1,0 +1,2232 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UAR-15 | Українська штурмова гвинтівка</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --gold: #C8A84B;
+      --gold-light: #E8C96A;
+      --gold-dim: #8A6E2A;
+      --dark: #060809;
+      --dark2: #0D1117;
+      --dark3: #131920;
+      --steel: #1E2833;
+      --text: #D4D8DC;
+      --text-dim: #7A8490;
+      --red: #C0392B;
+      --accent: #4A8FC0;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .5;
+    }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4rem;
+      height: 64px;
+      background: rgba(6, 8, 9, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(200, 168, 75, 0.15);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: .85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color .2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .nav-links a.active {
+      color: var(--gold);
+    }
+
+    .nav-links a.active::after {
+      transform: scaleX(1);
+    }
+
+    /* ─── PROGRESS BAR ─── */
+    #progress {
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      z-index: 999;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    #progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-light));
+      transition: width .1s;
+    }
+
+    /* ─── SECTIONS ─── */
+    section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      padding-top: 64px;
+      background: var(--dark);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(6, 8, 9, 0) 50%, rgba(6, 8, 9, 1) 100%),
+        linear-gradient(90deg, rgba(6, 8, 9, .95) 35%, rgba(6, 8, 9, .4) 100%),
+        url('https://telegraf.com.ua/static/storage/thumbs/2088x1174/3/13/66423019-81cc7fe7e0cc7f16f8b4ffcc7f5e5133.webp?v=6035_1') center/cover no-repeat;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      width: 100%;
+      padding: 0 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .hero-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+    }
+
+    .hero-label::before {
+      content: '';
+      display: inline-block;
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 10vw, 9rem);
+      line-height: .9;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+
+    .hero-title span {
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+      margin: 1.5rem 0 2.5rem;
+      max-width: 420px;
+      line-height: 1.6;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .8rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: .9rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--dark);
+      background: var(--gold);
+      padding: .9rem 2.5rem;
+      text-decoration: none;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      transition: background .2s, transform .2s;
+    }
+
+    .hero-cta:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(200, 168, 75, .15);
+      border: 1px solid rgba(200, 168, 75, .15);
+    }
+
+    .stat-cell {
+      background: rgba(13, 17, 23, .85);
+      padding: 1.8rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--gold);
+    }
+
+    .stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: .3rem;
+    }
+
+    /* ─── SECTION COMMON ─── */
+    .section-inner {
+      max-width: 1200px;
+      width: 100%;
+      padding: 6rem 4rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: .95;
+      letter-spacing: 1px;
+      color: #fff;
+      margin-bottom: 3rem;
+    }
+
+    /* ─── HISTORY ─── */
+    #history {
+      background: var(--dark2);
+    }
+
+    #history .hero-bg-hist {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, var(--dark2) 55%, rgba(13, 17, 23, .3) 100%),
+        url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEmPklNgGpfn2ITDo8qL-KFQizrVRiDzxSZg&s') right center/cover no-repeat;
+      opacity: .7;
+    }
+
+    .history-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .tl-item {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 0 1.5rem;
+      position: relative;
+    }
+
+    .tl-item:not(:last-child) .tl-line {
+      position: absolute;
+      left: 23px;
+      top: 48px;
+      bottom: 0;
+      width: 1px;
+      background: rgba(200, 168, 75, .2);
+    }
+
+    .tl-dot {
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--gold-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+      background: var(--dark2);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tl-body {
+      padding-bottom: 2.5rem;
+    }
+
+    .tl-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: .4rem;
+    }
+
+    .tl-text {
+      font-size: .9rem;
+      line-height: 1.6;
+      color: var(--text-dim);
+    }
+
+    /* ─── TECH / SPECS ─── */
+    #specs {
+      background: var(--dark3);
+      position: relative;
+    }
+
+    .specs-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 70% 50%, rgba(74, 143, 192, .06) 0%, transparent 60%),
+        url('https://inforoom.com.ua/wp-content/uploads/2025/06/uar-15-part-2-1.jpg') right center/50% auto no-repeat;
+      opacity: .3;
+    }
+
+    .specs-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .spec-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+    }
+
+    .spec-row:first-child {
+      border-top: 1px solid rgba(255, 255, 255, .06);
+    }
+
+    .spec-key {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .spec-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--gold);
+      text-align: right;
+    }
+
+    .specs-visual {
+      position: relative;
+    }
+
+    .gun-card {
+      background: var(--steel);
+      border: 1px solid rgba(200, 168, 75, .2);
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .gun-card::before {
+      content: 'UAR-15';
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: .7rem;
+      letter-spacing: 5px;
+      color: var(--dark3);
+      background: var(--gold);
+      padding: .15rem 1rem;
+    }
+
+    .gun-card img {
+      width: 100%;
+      border-radius: 4px;
+      filter: brightness(.9) contrast(1.1);
+      mix-blend-mode: luminosity;
+    }
+
+    /* ─── MODIFICATIONS ─── */
+    #mods {
+      background: var(--dark);
+    }
+
+    .mods-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: rgba(200, 168, 75, .1);
+      border: 1px solid rgba(200, 168, 75, .1);
+      margin-top: 3rem;
+    }
+
+    .mod-block {
+      background: var(--dark2);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background .2s;
+    }
+
+    .mod-block::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--gold-dim);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform .3s ease;
+    }
+
+    .mod-block:hover {
+      background: var(--dark3);
+    }
+
+    .mod-block:hover::before {
+      transform: scaleY(1);
+    }
+
+    .mod-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      line-height: 1;
+      color: rgba(200, 168, 75, .08);
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      user-select: none;
+    }
+
+    .mod-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 1px;
+      margin-bottom: .8rem;
+    }
+
+    .mod-desc {
+      font-size: .9rem;
+      line-height: 1.6;
+      color: var(--text-dim);
+    }
+
+    /* ─── COMPARISON ─── */
+    #compare {
+      background: var(--dark2);
+    }
+
+    .compare-table {
+      width: 100%;
+      margin-top: 3rem;
+      border-collapse: collapse;
+    }
+
+    .compare-table th {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 1rem 1.5rem;
+      text-align: center;
+      color: var(--text-dim);
+      border-bottom: 1px solid rgba(200, 168, 75, .2);
+    }
+
+    .compare-table th:first-child {
+      text-align: left;
+    }
+
+    .compare-table th.hl {
+      color: var(--gold);
+    }
+
+    .compare-table td {
+      padding: .9rem 1.5rem;
+      font-size: .9rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, .05);
+      color: var(--text-dim);
+    }
+
+    .compare-table td:first-child {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      color: var(--text);
+      text-align: left;
+    }
+
+    .compare-table tr:hover td {
+      background: rgba(200, 168, 75, .03);
+    }
+
+    .compare-table td.hl-cell {
+      background: rgba(200, 168, 75, .05);
+    }
+
+    .dot-good {
+      color: #5cb85c;
+      font-size: 1.2rem;
+    }
+
+    .dot-mid {
+      color: #f0ad4e;
+      font-size: 1.2rem;
+    }
+
+    .dot-bad {
+      color: #d9534f;
+      font-size: 1.2rem;
+    }
+
+    /* ─── PROS / CONS ─── */
+    #procons {
+      background: var(--dark3);
+    }
+
+    .procons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+
+    .pc-col h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: .6rem 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pc-col.pros h3 {
+      color: var(--dark);
+      background: #5cb85c;
+    }
+
+    .pc-col.cons h3 {
+      color: var(--dark);
+      background: #d9534f;
+    }
+
+    .pc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .pc-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: .9rem 1rem;
+      background: rgba(255, 255, 255, .03);
+      font-size: .9rem;
+      line-height: 1.5;
+      color: var(--text-dim);
+      border-left: 1px solid rgba(255, 255, 255, .06);
+      transition: background .15s;
+    }
+
+    .pc-list li:hover {
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .pc-list li span:first-child {
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+
+    /* ─── WAR SECTION ─── */
+    #war {
+      background: transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .war-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(6, 8, 9, 0.6) 0%, rgba(20, 4, 4, 0.75) 50%, rgba(6, 8, 9, 0.6) 100%),
+        url('https://static.ukrinform.com/photos/2020_07/thumb_files/630_360_1595861074-661.jpg') center/cover no-repeat;
+      z-index: 1;
+    }
+
+    .war-section-inner {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      width: 100%;
+      padding: 6rem 4rem;
+    }
+
+    .war-intro {
+      max-width: 700px;
+      font-size: .95rem;
+      line-height: 1.8;
+      color: var(--text-dim);
+      margin-bottom: 3rem;
+    }
+
+    .war-timeline {
+      position: relative;
+      padding-left: 2px;
+    }
+
+    .war-timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, #C0392B, #C8A84B, #C0392B, transparent);
+    }
+
+    .war-event {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 0 2rem;
+      padding: 0 0 2.5rem 2rem;
+      position: relative;
+    }
+
+    .war-event::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 6px;
+      width: 9px;
+      height: 9px;
+      background: var(--red);
+      border: 1px solid rgba(192, 57, 43, 0.5);
+      box-shadow: 0 0 10px rgba(192, 57, 43, 0.6);
+    }
+
+    .war-event.gold-dot::before {
+      background: var(--gold);
+      box-shadow: 0 0 10px rgba(200, 168, 75, 0.6);
+      border-color: rgba(200, 168, 75, 0.4);
+    }
+
+    .war-date {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+      padding-top: 2px;
+      line-height: 1.3;
+    }
+
+    .war-event.gold-dot .war-date {
+      color: var(--gold);
+    }
+
+    .war-body {}
+
+    .war-event-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: .4rem;
+    }
+
+    .war-event-text {
+      font-size: .88rem;
+      line-height: 1.65;
+      color: var(--text-dim);
+    }
+
+    .war-stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(192, 57, 43, 0.15);
+      border: 1px solid rgba(192, 57, 43, 0.2);
+      margin: 3rem 0;
+    }
+
+    .war-stat {
+      background: rgba(6, 8, 9, 0.85);
+      padding: 1.6rem 1.2rem;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      transition: background .2s;
+    }
+
+    .war-stat:hover {
+      background: rgba(20, 5, 5, 0.9);
+    }
+
+    .war-stat-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      line-height: 1;
+      color: var(--red);
+      display: block;
+    }
+
+    .war-stat.gold .war-stat-val {
+      color: var(--gold);
+    }
+
+    .war-stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: .3rem;
+      display: block;
+    }
+
+    .war-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      margin-top: 3rem;
+    }
+
+    .war-role-card {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(192, 57, 43, 0.2);
+      border-left: 3px solid var(--red);
+      padding: 1.6rem 1.8rem;
+      margin-bottom: 1rem;
+      transition: border-color .2s, background .2s;
+    }
+
+    .war-role-card:hover {
+      border-left-color: var(--gold);
+      background: rgba(20, 5, 5, 0.6);
+    }
+
+    .war-role-card.uv {
+      border-left-color: var(--gold);
+    }
+
+    .war-role-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: .6rem;
+    }
+
+    .war-role-card.uv .war-role-title {
+      color: var(--gold);
+    }
+
+    .war-role-text {
+      font-size: .88rem;
+      line-height: 1.65;
+      color: var(--text-dim);
+    }
+
+    .war-quote-big {
+      margin-top: 3rem;
+      padding: 2.5rem 3rem;
+      background: rgba(192, 57, 43, 0.06);
+      border: 1px solid rgba(192, 57, 43, 0.15);
+      border-left: 4px solid var(--red);
+      position: relative;
+    }
+
+    .war-quote-big p {
+      font-size: 1.15rem;
+      line-height: 1.75;
+      color: var(--text);
+      font-style: italic;
+    }
+
+    .war-quote-big cite {
+      display: block;
+      margin-top: 1rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      font-style: normal;
+    }
+
+    @media (max-width: 900px) {
+      .war-stats-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .war-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .war-event {
+        grid-template-columns: 80px 1fr;
+      }
+
+      .war-section-inner {
+        padding: 5rem 1.5rem;
+      }
+    }
+
+    /* ─── CONCLUSION ─── */
+    #conclusion {
+      background: var(--dark);
+      min-height: 70vh;
+    }
+
+    .conclusion-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, var(--dark) 40%, rgba(6, 8, 9, .6)),
+        url('https://photo.mediacenter.org.ua/wp-content/uploads/2023/08/8-7-738x492.jpeg') center/cover no-repeat;
+    }
+
+    .conclusion-content {
+      max-width: 680px;
+      position: relative;
+      z-index: 2;
+      padding: 6rem 4rem;
+    }
+
+    .conclusion-text {
+      font-size: 1.15rem;
+      line-height: 1.75;
+      color: var(--text-dim);
+      margin-bottom: 2.5rem;
+    }
+
+    .flag-stripe {
+      display: flex;
+      gap: 0;
+      height: 4px;
+      width: 120px;
+      margin-bottom: 2.5rem;
+    }
+
+    .flag-stripe .s1 {
+      flex: 1;
+      background: #005BBB;
+    }
+
+    .flag-stripe .s2 {
+      flex: 1;
+      background: #FFD500;
+    }
+
+    /* ─── SCROLL INDICATOR ─── */
+    .scroll-ind {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      opacity: .5;
+      animation: bounce 2s infinite;
+      z-index: 10;
+    }
+
+    .scroll-ind span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .65rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .scroll-ind svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--gold);
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(6px);
+      }
+    }
+
+    /* ─── REVEAL ANIMATION ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal-delay-1 {
+      transition-delay: .1s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: .2s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: .3s;
+    }
+
+    .reveal-delay-4 {
+      transition-delay: .4s;
+    }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 900px) {
+      nav {
+        padding: 0 1.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero-content,
+      .history-grid,
+      .specs-layout,
+      .procons-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-inner {
+        padding: 5rem 1.5rem;
+      }
+
+      .hero-content {
+        padding: 0 1.5rem;
+      }
+
+      .mods-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-bg {
+        background-position: 70% center;
+      }
+
+      .hero-title {
+        font-size: 5rem;
+      }
+
+      .conclusion-content {
+        padding: 5rem 1.5rem;
+      }
+    }
+
+    /* ─── COMBAT APPLICATION ─── */
+    #combat {
+      background: var(--dark2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .combat-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, var(--dark2) 0%, rgba(13, 17, 23, .5) 40%, var(--dark2) 100%),
+        url('https://c8.alamy.com/comp/3CY3K8K/a-soldier-from-the-13th-khartiia-brigade-of-ukraines-national-guard-fires-a-uar-15-rifle-during-a-shooting-drill-in-kharkiv-region-ukraine-october-13-2025-photo-by-viacheslav-madiievskyiukrinform-3CY3K8K.jpg') center 30%/cover no-repeat;
+      opacity: .25;
+    }
+
+    .combat-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(192, 57, 43, .04) 0%, transparent 70%);
+    }
+
+    .scenarios-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(200, 168, 75, .08);
+      border: 1px solid rgba(200, 168, 75, .08);
+      margin: 3rem 0;
+    }
+
+    .scenario-card {
+      background: rgba(6, 8, 9, .8);
+      backdrop-filter: blur(8px);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background .25s;
+    }
+
+    .scenario-card:hover {
+      background: rgba(19, 25, 32, .95);
+    }
+
+    .scenario-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold), transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .35s ease;
+    }
+
+    .scenario-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .scenario-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    .scenario-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .8rem;
+    }
+
+    .scenario-desc {
+      font-size: .88rem;
+      line-height: 1.65;
+      color: var(--text-dim);
+    }
+
+    .scenario-tag {
+      display: inline-block;
+      margin-top: 1.2rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      border: 1px solid var(--gold-dim);
+      padding: .2rem .7rem;
+    }
+
+    .units-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .unit-badge {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid rgba(200, 168, 75, .12);
+      padding: .7rem 1.2rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--text);
+      transition: border-color .2s, background .2s;
+    }
+
+    .unit-badge:hover {
+      border-color: rgba(200, 168, 75, .4);
+      background: rgba(200, 168, 75, .05);
+    }
+
+    .unit-badge span {
+      color: var(--gold);
+      font-size: 1rem;
+    }
+
+    .combat-quote {
+      margin-top: 3rem;
+      padding: 2rem 2.5rem;
+      border-left: 3px solid var(--gold);
+      background: rgba(200, 168, 75, .04);
+      position: relative;
+    }
+
+    .combat-quote::before {
+      content: '"';
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 6rem;
+      line-height: 1;
+      color: rgba(200, 168, 75, .12);
+      position: absolute;
+      top: -1rem;
+      left: 1rem;
+      pointer-events: none;
+    }
+
+    .combat-quote p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-dim);
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+    }
+
+    .combat-quote cite {
+      display: block;
+      margin-top: .8rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      font-style: normal;
+    }
+
+    @media (max-width: 900px) {
+      .scenarios-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    .divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin-bottom: 2rem;
+    }
+
+    /* ─── BACK TO TOP ─── */
+    #btt {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 900;
+      width: 44px;
+      height: 44px;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s, transform .2s;
+    }
+
+    #btt.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #btt:hover {
+      transform: scale(1.1);
+    }
+
+    #btt svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--dark);
+    }
+
+    /* ─── MOBILE MENU TOGGLE ─── */
+    #menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gold);
+      font-size: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      #menu-toggle {
+        display: block;
+      }
+    }
+
+    /* ─── MOBILE NAV DRAWER ─── */
+    #mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 998;
+      background: rgba(6, 8, 9, .97);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    #mobile-nav.open {
+      display: flex;
+    }
+
+    #mobile-nav a {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: 4px;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    #mobile-nav a:hover {
+      color: var(--gold);
+    }
+
+    #mobile-nav .close-btn {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-dim);
+      font-size: 1.5rem;
+    }
+
+    /* ─── TACTICAL CANVAS BG ─── */
+    #tactical-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* All photo bg divs go behind canvas */
+    .hero-bg,
+    .hero-bg-hist,
+    .specs-bg,
+    .combat-bg,
+    .conclusion-bg {
+      z-index: 1 !important;
+    }
+
+    /* content always on top */
+    .hero-content,
+    .section-inner,
+    .conclusion-content {
+      z-index: 10 !important;
+    }
+
+    .scroll-ind {
+      z-index: 10 !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TACTICAL ANIMATED BACKGROUND -->
+  <canvas id="tactical-bg"></canvas>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">UAR-15</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">Головна</a></li>
+      <li><a href="#history">Історія</a></li>
+      <li><a href="#specs">Характеристики</a></li>
+      <li><a href="#mods">Модифікації</a></li>
+      <li><a href="#compare">Порівняння</a></li>
+      <li><a href="#procons">Аналіз</a></li>
+      <li><a href="#combat">Застосування</a></li>
+      <li><a href="#war">Війна</a></li>
+      <li><a href="#conclusion">Висновок</a></li>
+    </ul>
+    <button id="menu-toggle">☰</button>
+  </nav>
+
+  <div id="mobile-nav">
+    <button class="close-btn" id="close-menu">✕</button>
+    <a href="#hero" onclick="closeMobileMenu()">Головна</a>
+    <a href="#history" onclick="closeMobileMenu()">Історія</a>
+    <a href="#specs" onclick="closeMobileMenu()">Характеристики</a>
+    <a href="#mods" onclick="closeMobileMenu()">Модифікації</a>
+    <a href="#compare" onclick="closeMobileMenu()">Порівняння</a>
+    <a href="#procons" onclick="closeMobileMenu()">Аналіз</a>
+    <a href="#combat" onclick="closeMobileMenu()">Застосування</a>
+    <a href="#war" onclick="closeMobileMenu()">Війна</a>
+    <a href="#conclusion" onclick="closeMobileMenu()">Висновок</a>
+  </div>
+
+  <div id="progress">
+    <div id="progress-fill"></div>
+  </div>
+
+  <!-- BACK TO TOP -->
+  <div id="btt" title="Вгору" onclick="scrollTo({top:0,behavior:'smooth'})">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 5l-8 8h5v6h6v-6h5z" />
+    </svg>
+  </div>
+
+  <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-label reveal">Збройні сили України</div>
+        <h1 class="hero-title reveal reveal-delay-1">UAR<br><span>-15</span></h1>
+        <p class="hero-sub reveal reveal-delay-2">Сучасна українська штурмова гвинтівка стандарту НАТО, розроблена для
+          умов реального бою</p>
+        <a href="#history" class="hero-cta reveal reveal-delay-3">Дізнатись більше →</a>
+      </div>
+      <div class="hero-stats reveal reveal-delay-2">
+        <div class="stat-cell">
+          <div class="stat-val">5.56</div>
+          <div class="stat-label">Калібр NATO (мм)</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-val">900</div>
+          <div class="stat-label">Темп вогню (постр/хв)</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-val">650</div>
+          <div class="stat-label">Ефективна дальність (м)</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-val">3.2</div>
+          <div class="stat-label">Маса без магазину (кг)</div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-ind">
+      <span>Scroll</span>
+      <svg viewBox="0 0 24 24">
+        <path d="M12 16l-6-6h12z" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ HISTORY ═══════════════════════════════ -->
+  <section id="history">
+    <div class="hero-bg-hist"></div>
+    <div class="section-inner">
+      <div class="history-grid">
+        <div>
+          <div class="section-label reveal">Передісторія</div>
+          <h2 class="section-title reveal reveal-delay-1">Звідки з'явилась<br>UAR-15</h2>
+          <p class="reveal reveal-delay-2"
+            style="font-size:.95rem;line-height:1.75;color:var(--text-dim);max-width:450px;">
+            Гвинтівка виникла через необхідність модернізації армії України та переходу на стандарти НАТО. Компанія
+            <strong style="color:var(--text)">Zbroyar</strong> взяла за основу платформу AR-15 і адаптувала її для
+            потреб ЗСУ.
+          </p>
+        </div>
+        <div class="timeline">
+          <div class="tl-item reveal reveal-delay-1">
+            <div class="tl-line"></div>
+            <div class="tl-dot">01</div>
+            <div class="tl-body">
+              <div class="tl-title">Потреба в оновленні</div>
+              <div class="tl-text">Бойові дії виявили обмеження АК-74: слабка оптика, погана ергономіка, несумісність зі
+                стандартами НАТО.</div>
+            </div>
+          </div>
+          <div class="tl-item reveal reveal-delay-2">
+            <div class="tl-line"></div>
+            <div class="tl-dot">02</div>
+            <div class="tl-body">
+              <div class="tl-title">Розробка Zbroyar</div>
+              <div class="tl-text">Українська компанія Zbroyar почала розробку на базі AR-15 з адаптацією для умов війни
+                на сході України.</div>
+            </div>
+          </div>
+          <div class="tl-item reveal reveal-delay-3">
+            <div class="tl-line"></div>
+            <div class="tl-dot">03</div>
+            <div class="tl-body">
+              <div class="tl-title">Перехід на 5.56 NATO</div>
+              <div class="tl-text">Стандарт НАТО спрощує логістику, співпрацю з партнерами та постачання боєприпасів у
+                воєнний час.</div>
+            </div>
+          </div>
+          <div class="tl-item reveal reveal-delay-4">
+            <div class="tl-dot">04</div>
+            <div class="tl-body">
+              <div class="tl-title">Бойове застосування</div>
+              <div class="tl-text">Досвід підтвердив ефективність UAR-15 у сучасних умовах — особливо в міських боях та
+                спецоперацій.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ SPECS ═══════════════════════════════ -->
+  <section id="specs">
+    <div class="specs-bg"></div>
+    <div class="section-inner">
+      <div class="specs-layout">
+        <div>
+          <div class="section-label reveal">Тактико-технічні</div>
+          <h2 class="section-title reveal reveal-delay-1">Характеристики</h2>
+          <div class="divider reveal reveal-delay-2"></div>
+          <div class="spec-rows reveal reveal-delay-2">
+            <div class="spec-row"><span class="spec-key">Калібр</span><span class="spec-val">5.56×45 мм NATO</span>
+            </div>
+            <div class="spec-row"><span class="spec-key">Маса (без магазину)</span><span class="spec-val">~3.0–3.5
+                кг</span></div>
+            <div class="spec-row"><span class="spec-key">Ємність магазину</span><span class="spec-val">30
+                патронів</span></div>
+            <div class="spec-row"><span class="spec-key">Темп стрільби</span><span class="spec-val">700–900
+                постр/хв</span></div>
+            <div class="spec-row"><span class="spec-key">Ефективна дальність</span><span class="spec-val">500–650
+                м</span></div>
+            <div class="spec-row"><span class="spec-key">Початкова швидкість кулі</span><span class="spec-val">~850–900
+                м/с</span></div>
+            <div class="spec-row"><span class="spec-key">Планки</span><span class="spec-val">Picatinny (NATO)</span>
+            </div>
+            <div class="spec-row"><span class="spec-key">Приклад</span><span class="spec-val">Телескопічний,
+                регульований</span></div>
+          </div>
+        </div>
+        <div class="specs-visual reveal reveal-delay-3">
+          <div class="gun-card">
+            <img src="https://en.defence-ua.com/media/illustration/articles/f7d68472c9adb64e.jpg" alt="UAR-15">
+          </div>
+          <div
+            style="margin-top:1.5rem;padding:1.2rem 1.5rem;background:rgba(200,168,75,.05);border:1px solid rgba(200,168,75,.1);">
+            <p
+              style="font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);">
+              Виробник</p>
+            <p
+              style="font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:700;color:var(--gold);margin-top:.2rem;">
+              Zbroyar · Україна</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ MODS ═══════════════════════════════ -->
+  <section id="mods">
+    <div class="section-inner">
+      <div class="section-label reveal">Лінійка зброї</div>
+      <h2 class="section-title reveal reveal-delay-1">Модифікації</h2>
+      <div class="mods-grid reveal reveal-delay-2">
+        <div class="mod-block">
+          <div class="mod-num">01</div>
+          <div class="mod-name">UAR-15</div>
+          <div class="mod-desc">Базова версія. Призначена для стандартних бойових завдань піхоти. Повна довжина ствола,
+            максимальна точність на середніх дистанціях.</div>
+        </div>
+        <div class="mod-block">
+          <div class="mod-num">02</div>
+          <div class="mod-name">UAR-15S</div>
+          <div class="mod-desc">Укорочена версія зі скороченим стволом. Ідеальна для штурмових операцій, боїв у
+            приміщеннях і транспортних засобах.</div>
+        </div>
+        <div class="mod-block">
+          <div class="mod-num">03</div>
+          <div class="mod-name">UAR-15SM</div>
+          <div class="mod-desc">Модернізована версія для спецпідрозділів. Покращена ергономіка, додаткові органи
+            управління, розширений набір кріплень.</div>
+        </div>
+        <div class="mod-block">
+          <div class="mod-num">04</div>
+          <div class="mod-name">Цивільна версія</div>
+          <div class="mod-desc">Напівавтоматична модифікація для спортивної стрільби та цивільного ринку. Зберігає
+            модульність і сумісність із обладнанням.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ COMPARE ═══════════════════════════════ -->
+  <section id="compare">
+    <div class="section-inner">
+      <div class="section-label reveal">Аналіз ринку</div>
+      <h2 class="section-title reveal reveal-delay-1">Порівняння з аналогами</h2>
+      <div class="reveal reveal-delay-2" style="overflow-x:auto;">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Критерій</th>
+              <th class="hl">UAR-15</th>
+              <th>АК-74</th>
+              <th>M4A1</th>
+              <th>FN SCAR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Точність стрільби</td>
+              <td class="hl-cell"><span class="dot-good">●</span></td>
+              <td><span class="dot-mid">●</span></td>
+              <td><span class="dot-good">●</span></td>
+              <td><span class="dot-good">●</span></td>
+            </tr>
+            <tr>
+              <td>Надійність у бруді</td>
+              <td class="hl-cell"><span class="dot-mid">●</span></td>
+              <td><span class="dot-good">●</span></td>
+              <td><span class="dot-mid">●</span></td>
+              <td><span class="dot-good">●</span></td>
+            </tr>
+            <tr>
+              <td>Ергономіка</td>
+              <td class="hl-cell"><span class="dot-good">●</span></td>
+              <td><span class="dot-bad">●</span></td>
+              <td><span class="dot-good">●</span></td>
+              <td><span class="dot-good">●</span></td>
+            </tr>
+            <tr>
+              <td>Сумісність NATO</td>
+              <td class="hl-cell"><span class="dot-good">●</span></td>
+              <td><span class="dot-bad">●</span></td>
+              <td><span class="dot-good">●</span></td>
+              <td><span class="dot-good">●</span></td>
+            </tr>
+            <tr>
+              <td>Модульність</td>
+              <td class="hl-cell"><span class="dot-good">●</span></td>
+              <td><span class="dot-bad">●</span></td>
+              <td><span class="dot-good">●</span></td>
+              <td><span class="dot-good">●</span></td>
+            </tr>
+            <tr>
+              <td>Доступність запчастин</td>
+              <td class="hl-cell"><span class="dot-mid">●</span></td>
+              <td><span class="dot-good">●</span></td>
+              <td><span class="dot-good">●</span></td>
+              <td><span class="dot-mid">●</span></td>
+            </tr>
+            <tr>
+              <td>Вартість</td>
+              <td class="hl-cell"><span class="dot-mid">●</span></td>
+              <td><span class="dot-good">●</span></td>
+              <td><span class="dot-mid">●</span></td>
+              <td><span class="dot-bad">●</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <p
+          style="margin-top:1rem;font-size:.75rem;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;">
+          <span class="dot-good">●</span> Відмінно &nbsp; <span class="dot-mid">●</span> Задовільно &nbsp; <span
+            class="dot-bad">●</span> Слабко
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ PROS/CONS ═══════════════════════════════ -->
+  <section id="procons">
+    <div class="section-inner">
+      <div class="section-label reveal">Об'єктивний аналіз</div>
+      <h2 class="section-title reveal reveal-delay-1">Переваги та недоліки</h2>
+      <div class="procons-grid">
+        <div class="pc-col pros reveal reveal-delay-1">
+          <h3>ПЕРЕВАГИ</h3>
+          <ul class="pc-list">
+            <li><span>🎯</span><span>Висока точність стрільби на середніх і далеких дистанціях</span></li>
+            <li><span>🔩</span><span>Модульна конструкція — легка зміна компонентів під бойові завдання</span></li>
+            <li><span>⚙️</span><span>Сучасна ергономіка та зручне розміщення органів управління</span></li>
+            <li><span>🌐</span><span>Повна сумісність із обладнанням і боєприпасами НАТО</span></li>
+            <li><span>💡</span><span>Регульований приклад — адаптація під будь-якого стрільця</span></li>
+            <li><span>🔭</span><span>Підтримка будь-яких сучасних прицілів, ліхтарів і глушників</span></li>
+            <li><span>⚡</span><span>Менша віддача порівняно з АК-серією</span></li>
+          </ul>
+        </div>
+        <div class="pc-col cons reveal reveal-delay-2">
+          <h3>НЕДОЛІКИ</h3>
+          <ul class="pc-list">
+            <li><span>🧹</span><span>Вимагає ретельного і регулярного технічного обслуговування</span></li>
+            <li><span>💧</span><span>Чутливість до сильного забруднення — поступається АК в екстремальних умовах</span>
+            </li>
+            <li><span>💰</span><span>Вища вартість виробництва та комплектуючих</span></li>
+            <li><span>🔧</span><span>Менша поширеність запчастин в умовах активних бойових дій</span></li>
+            <li><span>📚</span><span>Потребує кращої підготовки та навичок у бійця</span></li>
+            <li><span>🎯</span><span>Залежна від якості боєприпасів для максимальної ефективності</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ COMBAT APPLICATION ═══════════════════════════════ -->
+  <section id="combat">
+    <div class="combat-bg"></div>
+    <div class="section-inner">
+      <div class="section-label reveal">Бойовий досвід</div>
+      <h2 class="section-title reveal reveal-delay-1">Застосування<br>в реаліях України</h2>
+
+      <div class="scenarios-grid reveal reveal-delay-2">
+        <div class="scenario-card">
+          <span class="scenario-icon">🏙️</span>
+          <div class="scenario-title">Міський бій</div>
+          <p class="scenario-desc">У вуличних боях Бахмута, Авдіївки та Маріуполя вкорочена версія UAR-15S показала себе
+            зброєю для боїв на близьких дистанціях. Компактність дозволяє діяти в підвалах, коридорах і зруйнованих
+            будівлях.</p>
+          <span class="scenario-tag">CQB / Близькі дистанції</span>
+        </div>
+        <div class="scenario-card">
+          <span class="scenario-icon">🌿</span>
+          <div class="scenario-title">Окопна та лісова оборона</div>
+          <p class="scenario-desc">На лінії зіткнення в лісових масивах Харківщини та Запоріжжя UAR-15 з оптичними
+            прицілами забезпечує переваги на дистанціях 300–500 м. Можливість швидко встановити глушник змінює тактику
+            засідок.</p>
+          <span class="scenario-tag">Засідки / Снайперська підтримка</span>
+        </div>
+        <div class="scenario-card">
+          <span class="scenario-icon">⚡</span>
+          <div class="scenario-title">Штурмові та ДРГ</div>
+          <p class="scenario-desc">Диверсійно-розвідувальні групи обирають UAR-15SM за поєднання компактності, точності
+            та сумісності з глушниками і тепловізорами. Легка вага і регульований приклад — критичний фактор при
+            тривалих виходах.</p>
+          <span class="scenario-tag">Спецоперації / Розвідка</span>
+        </div>
+        <div class="scenario-card">
+          <span class="scenario-icon">🚁</span>
+          <div class="scenario-title">Аеромобільні підрозділи</div>
+          <p class="scenario-desc">При діях з гелікоптерів і швидкісних виходах укорочена платформа AR-15 стала
+            стандартом. Маса зброї критична при десантуванні — UAR-15 на 0.5–1 кг легша за АК-74 у спорядженні.</p>
+          <span class="scenario-tag">Десантування / Мобільність</span>
+        </div>
+        <div class="scenario-card">
+          <span class="scenario-icon">🛡️</span>
+          <div class="scenario-title">Нацгвардія та ТрО</div>
+          <p class="scenario-desc">Підрозділи Національної гвардії та Тероборони активно отримують UAR-15 як заміну
+            застарілим АКС-74. Навчання на платформі AR-15 простіше для мобілізованих — менший час освоєння сучасного
+            прицільного обладнання.</p>
+          <span class="scenario-tag">НГУ / Тероборона</span>
+        </div>
+        <div class="scenario-card">
+          <span class="scenario-icon">🔭</span>
+          <div class="scenario-title">Нічні операції</div>
+          <p class="scenario-desc">Стандартні планки Picatinny дозволяють за хвилини встановити прилади нічного бачення
+            та тепловізійні прицільні комплекси. Це перетворило UAR-15 на основну зброю нічних штурмових груп ЗСУ.</p>
+          <span class="scenario-tag">ПНБ / Тепловізор</span>
+        </div>
+      </div>
+
+      <div class="units-row reveal reveal-delay-3">
+        <div class="unit-badge"><span>🪖</span> Збройні Сили України</div>
+        <div class="unit-badge"><span>⚜️</span> Національна гвардія</div>
+        <div class="unit-badge"><span>🔱</span> Спецпризначенці ССО</div>
+        <div class="unit-badge"><span>🛡️</span> Тероборона</div>
+        <div class="unit-badge"><span>🚔</span> Нацполіція / КОРД</div>
+        <div class="unit-badge"><span>🌊</span> Морська піхота</div>
+      </div>
+
+      <div class="combat-quote reveal reveal-delay-4">
+        <p>Бойовий досвід підтвердив: у сучасній війні перемагає той, хто краще бачить, точніше стріляє і швидше
+          адаптується. UAR-15 дає українському бійцю саме цей комплекс переваг — особливо у взаємодії з союзниками НАТО
+          та при використанні сучасного електронного обладнання.</p>
+        <cite>— Аналіз бойового застосування, підрозділи ЗСУ, 2023–2025</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ WAR SECTION ═══════════════════════════════ -->
+  <section id="war">
+    <div class="war-overlay"></div>
+    <div class="war-section-inner">
+
+      <div class="section-label reveal" style="color:#C0392B;">Контекст збройної боротьби</div>
+      <h2 class="section-title reveal reveal-delay-1">UAR-15 і війна<br><span style="color:#C0392B;">проти
+          України</span></h2>
+
+      <p class="war-intro reveal reveal-delay-2">
+        Повномасштабне вторгнення Росії 24 лютого 2022 року докорінно змінило потреби українських збройних сил. Саме в
+        умовах реальної війни UAR-15 пройшла справжнє бойове хрещення — і довела свою ефективність на різних ділянках
+        фронту.
+      </p>
+
+      <!-- Ключові цифри -->
+      <div class="war-stats-row reveal reveal-delay-2">
+        <div class="war-stat">
+          <span class="war-stat-val">2022</span>
+          <span class="war-stat-label">Рік вторгнення</span>
+        </div>
+        <div class="war-stat">
+          <span class="war-stat-val">1300+</span>
+          <span class="war-stat-label">км лінії фронту</span>
+        </div>
+        <div class="war-stat gold">
+          <span class="war-stat-val">50+</span>
+          <span class="war-stat-label">країн-союзників</span>
+        </div>
+        <div class="war-stat gold">
+          <span class="war-stat-val">NATO</span>
+          <span class="war-stat-label">Стандарт UAR-15</span>
+        </div>
+      </div>
+
+      <div class="war-grid">
+        <!-- TIMELINE -->
+        <div>
+          <div class="section-label reveal" style="color:var(--text-dim);margin-bottom:1.5rem;">Хронологія</div>
+          <div class="war-timeline">
+            <div class="war-event reveal reveal-delay-1">
+              <div class="war-date">2014–<br>2021</div>
+              <div class="war-body">
+                <div class="war-event-title">Перші бойові перевірки</div>
+                <div class="war-event-text">Після окупації Криму та початку бойових дій на Донбасі перші партії UAR-15
+                  надійшли до спецпідрозділів. Зброя протестована в умовах реального протистояння в міських районах
+                  Луганська та Донецька.</div>
+              </div>
+            </div>
+            <div class="war-event reveal reveal-delay-2">
+              <div class="war-date">24 ЛЮТ<br>2022</div>
+              <div class="war-body">
+                <div class="war-event-title">Повномасштабне вторгнення</div>
+                <div class="war-event-text">Росія розпочала масштабний напад по всій довжині кордону. ЗСУ перейшли на
+                  посилений режим — попит на UAR-15 різко зріс. Zbroyar нарощує виробництво, пріоритет отримують
+                  штурмові та розвідувальні підрозділи.</div>
+              </div>
+            </div>
+            <div class="war-event gold-dot reveal reveal-delay-3">
+              <div class="war-date">2022–<br>2023</div>
+              <div class="war-body">
+                <div class="war-event-title">Харківська та Херсонська операції</div>
+                <div class="war-event-text">Під час звільнення Харківщини (вересень 2022) та Херсона (листопад 2022)
+                  бійці зі зброєю UAR-15 діяли у складі штурмових груп. Швидке переміщення та точний вогонь виявились
+                  ключовими перевагами.</div>
+              </div>
+            </div>
+            <div class="war-event reveal reveal-delay-4">
+              <div class="war-date">2023–<br>2024</div>
+              <div class="war-body">
+                <div class="war-event-title">Позиційна війна та фронт</div>
+                <div class="war-event-text">На виснажливому фронті від Авдіївки до Бахмута UAR-15 застосовується у
+                  снайперській підтримці, нічних операціях і засідках. Сумісність із тепловізорами і глушниками стала
+                  критичним фактором.</div>
+              </div>
+            </div>
+            <div class="war-event gold-dot reveal reveal-delay-4">
+              <div class="war-date">2025</div>
+              <div class="war-body">
+                <div class="war-event-title">Масштабування та стандартизація</div>
+                <div class="war-event-text">UAR-15 включена в програми переозброєння підрозділів Нацгвардії та ТрО.
+                  Тренування 13-ї бригади НГУ в Харківській обл. підтвердило: особовий склад швидко опановує зброю і
+                  цінує переваги над АК-74.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- РОЛЬ ЗБРОЇ -->
+        <div>
+          <div class="section-label reveal" style="color:var(--text-dim);margin-bottom:1.5rem;">Роль UAR-15 у
+            протистоянні</div>
+
+          <div class="war-role-card reveal reveal-delay-1">
+            <div class="war-role-title">⚔️ Асиметрична тактика</div>
+            <div class="war-role-text">Проти масованих атак РФ ЗСУ застосовують малі мобільні групи. UAR-15 — ідеальна
+              зброя для таких груп: легка, точна, з можливістю раптового удару і швидкого відходу.</div>
+          </div>
+
+          <div class="war-role-card uv reveal reveal-delay-2">
+            <div class="war-role-title">🌐 Інтеграція з союзниками</div>
+            <div class="war-role-text">Сумісність зі стандартом НАТО дозволяє українським бійцям використовувати
+              боєприпаси та запчастини від союзників. Це критично при отриманні гуманітарної зброєвої допомоги — UAR-15
+              не потребує адаптерів.</div>
+          </div>
+
+          <div class="war-role-card reveal reveal-delay-3">
+            <div class="war-role-title">🔭 Технологічна перевага вночі</div>
+            <div class="war-role-text">На нічному полі бою UAR-15 з ПНБ і тепловізором дає вирішальну перевагу. Численні
+              відео з фронту показують ефективне знешкодження ворожих позицій нічними штурмовими групами ЗСУ.</div>
+          </div>
+
+          <div class="war-role-card uv reveal reveal-delay-4">
+            <div class="war-role-title">🏭 Власне виробництво</div>
+            <div class="war-role-text">UAR-15 виробляється в Україні — це стратегічно важливо. Незалежність від імпорту
+              зброї, можливість швидко нарощувати виробництво та адаптувати конструкцію під бойовий досвід — без
+              бюрократії іноземних постачальників.</div>
+          </div>
+
+          <div class="war-quote-big reveal reveal-delay-4">
+            <p>Кожна UAR-15 на передовій — це не просто зброя. Це символ того, що Україна більше не воює радянською
+              спадщиною. Ми воюємо зброєю, яку зробили самі, для стандартів, до яких прагнемо.</p>
+            <cite>— Загальний настрій серед підрозділів ЗСУ, що перейшли на UAR-15</cite>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ CONCLUSION ═══════════════════════════════ -->
+  <section id="conclusion">
+    <div class="conclusion-bg"></div>
+    <div class="conclusion-content">
+      <div class="flag-stripe reveal">
+        <div class="s1"></div>
+        <div class="s2"></div>
+      </div>
+      <div class="section-label reveal">Підсумок</div>
+      <h2 class="section-title reveal reveal-delay-1">Висновок</h2>
+      <p class="conclusion-text reveal reveal-delay-2">
+        UAR-15 — важливий крок у переходу Збройних Сил України від радянського озброєння до сучасних систем стандарту
+        НАТО. Поєднання точності, модульності та сумісності з партнерами робить її конкурентоспроможною зброєю для умов
+        сучасного бою.
+      </p>
+      <p class="conclusion-text reveal reveal-delay-3">
+        Попри певну чутливість до бруду та вищу вартість обслуговування, гвинтівка демонструє ефективність у реальних
+        бойових умовах — і поступово стає невід'ємною частиною арсеналу українського воїна.
+      </p>
+      <a href="#hero" class="hero-cta reveal reveal-delay-4" style="display:inline-flex;">↑ На початок</a>
+    </div>
+  </section>
+
+  <script>
+    // PROGRESS BAR
+    const pf = document.getElementById('progress-fill');
+    const btt = document.getElementById('btt');
+
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      const p = (window.scrollY / h) * 100;
+      pf.style.width = p + '%';
+      btt.classList.toggle('visible', window.scrollY > 300);
+    });
+
+    // ACTIVE NAV LINK
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    const navObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { threshold: 0.4 });
+
+    sections.forEach(s => navObs.observe(s));
+
+    // REVEAL ON SCROLL
+    const reveals = document.querySelectorAll('.reveal');
+    const revObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(r => revObs.observe(r));
+
+    // MOBILE MENU
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('mobile-nav').classList.add('open');
+    });
+    document.getElementById('close-menu').addEventListener('click', closeMobileMenu);
+
+    function closeMobileMenu() {
+      document.getElementById('mobile-nav').classList.remove('open');
+    }
+  </script>
+
+  <!-- ═══════════════ TACTICAL BACKGROUND ENGINE ═══════════════ -->
+  <script>
+    window.addEventListener('load', function () {
+      var canvas = document.getElementById('tactical-bg');
+      if (!canvas) { console.error('no canvas'); return; }
+      var ctx = canvas.getContext('2d');
+
+      var W, H;
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      var t = 0;
+
+      // ── GRID ──
+      function drawGrid() {
+        var GRID = 60;
+        var scrollFrac = window.scrollY * 0.04;
+        var offX = (t * 0.25) % GRID;
+        var offY = (scrollFrac + t * 0.08) % GRID;
+
+        ctx.lineWidth = 0.8;
+        ctx.font = '9px monospace';
+
+        for (var x = -offX; x < W + GRID; x += GRID) {
+          var a = 0.18 + Math.sin(x * 0.015 + t * 0.01) * 0.05;
+          ctx.strokeStyle = 'rgba(200,168,75,' + a + ')';
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+          var col = Math.round((x + offX) / GRID);
+          if (col % 5 === 0) {
+            ctx.fillStyle = 'rgba(200,168,75,0.55)';
+            ctx.fillText((48 + col * 0.06).toFixed(1) + '°E', x + 3, 22);
+          }
+        }
+
+        for (var y = -offY; y < H + GRID; y += GRID) {
+          var a2 = 0.18 + Math.sin(y * 0.012 + t * 0.008) * 0.05;
+          ctx.strokeStyle = 'rgba(200,168,75,' + a2 + ')';
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+          var row = Math.round((y + offY) / GRID);
+          if (row % 5 === 0) {
+            ctx.fillStyle = 'rgba(200,168,75,0.55)';
+            ctx.fillText((50 - row * 0.06).toFixed(1) + '°N', 4, y - 3);
+          }
+        }
+      }
+
+      // ── TYPING TEXTS ──
+      var phrases = [
+        'GRID: A4-17', 'AZM: 214°', 'ALT: 0842 m',
+        'TARGET LOCK', 'SECTOR CLEAR', 'DIST: 380 м',
+        '48.312°N 36.441°E', 'FREQ: 152.30 MHz',
+        'SIGNAL: 94%', 'UTM: 37U 384120E', 'UAR-15 ONLINE',
+        'FIRE CONTROL', 'RANGE: 420 m', 'AZIMUTH: 087°'
+      ];
+      var txts = [];
+      function spawnTxt() {
+        txts.push({
+          x: 30 + Math.random() * (W - 260),
+          y: 90 + Math.random() * (H - 120),
+          full: phrases[Math.floor(Math.random() * phrases.length)],
+          shown: 0,
+          life: 0,
+          maxLife: 220 + Math.random() * 140,
+          spd: 0.22 + Math.random() * 0.15,
+          col: Math.random() > 0.55 ? 'rgba(200,168,75,' : 'rgba(74,143,192,',
+          alpha: 0.55 + Math.random() * 0.25
+        });
+      }
+      for (var i = 0; i < 8; i++) spawnTxt();
+
+      function drawTyping() {
+        ctx.font = '10px "Courier New", monospace';
+        for (var i = txts.length - 1; i >= 0; i--) {
+          var tt = txts[i];
+          tt.life++;
+          tt.shown = Math.min(tt.full.length, tt.shown + tt.spd);
+          var p = tt.life / tt.maxLife;
+          var a = tt.alpha;
+          if (p < 0.12) a *= p / 0.12;
+          if (p > 0.8) a *= (1 - p) / 0.2;
+          var cursor = (tt.shown < tt.full.length && Math.floor(t * 0.08) % 2 === 0) ? '_' : '';
+          ctx.fillStyle = tt.col + a + ')';
+          ctx.fillText(tt.full.slice(0, Math.floor(tt.shown)) + cursor, tt.x, tt.y);
+          if (tt.life >= tt.maxLife) { txts.splice(i, 1); spawnTxt(); }
+        }
+      }
+
+      // ── CROSSHAIRS ──
+      var crosses = [];
+      function spawnCross() {
+        crosses.push({
+          x: 80 + Math.random() * (W - 160),
+          y: 80 + Math.random() * (H - 160),
+          life: 0,
+          maxLife: 160 + Math.random() * 120,
+          sz: 18 + Math.random() * 28,
+          col: Math.random() > 0.5 ? 'rgba(200,168,75,' : 'rgba(74,143,192,'
+        });
+      }
+      for (var i = 0; i < 5; i++) spawnCross();
+
+      function drawCrosses() {
+        for (var i = crosses.length - 1; i >= 0; i--) {
+          var c = crosses[i];
+          c.life++;
+          var p = c.life / c.maxLife;
+          var a = Math.sin(p * Math.PI) * 0.75;
+          var sz = c.sz;
+          var gap = sz * 0.35;
+          ctx.strokeStyle = c.col + a + ')';
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.arc(c.x, c.y, sz, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(c.x - sz - 10, c.y); ctx.lineTo(c.x - gap, c.y);
+          ctx.moveTo(c.x + gap, c.y); ctx.lineTo(c.x + sz + 10, c.y);
+          ctx.moveTo(c.x, c.y - sz - 10); ctx.lineTo(c.x, c.y - gap);
+          ctx.moveTo(c.x, c.y + gap); ctx.lineTo(c.x, c.y + sz + 10);
+          ctx.stroke();
+          // rotating dot
+          var angle = t * 0.025 + i;
+          ctx.fillStyle = c.col + (a * 1.8) + ')';
+          ctx.beginPath();
+          ctx.arc(c.x + Math.cos(angle) * sz * 0.7, c.y + Math.sin(angle) * sz * 0.7, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+          if (c.life >= c.maxLife) { crosses.splice(i, 1); spawnCross(); }
+        }
+      }
+
+      // ── RADAR RINGS ──
+      var rings = [];
+      function spawnRing(cx, cy) {
+        rings.push({ cx: cx, cy: cy, r: 0, maxR: 90 + Math.random() * 50, spd: 0.4 + Math.random() * 0.3 });
+      }
+      spawnRing(W * 0.88, H * 0.12);
+      spawnRing(W * 0.10, H * 0.82);
+
+      function drawRadar() {
+        for (var i = 0; i < rings.length; i++) {
+          var r = rings[i];
+          r.r += r.spd;
+          if (r.r > r.maxR) r.r = 0;
+          var fade = 1 - r.r / r.maxR;
+          ctx.strokeStyle = 'rgba(200,168,75,' + (0.45 * fade) + ')';
+          ctx.lineWidth = 0.6;
+          ctx.beginPath();
+          ctx.arc(r.cx, r.cy, r.r, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        // update positions on resize
+        rings[0].cx = W * 0.88; rings[0].cy = H * 0.12;
+        rings[1].cx = W * 0.10; rings[1].cy = H * 0.82;
+      }
+
+      // ── PARTICLES ──
+      var parts = [];
+      for (var i = 0; i < 55; i++) {
+        parts.push({
+          x: Math.random() * W, y: Math.random() * H,
+          r: Math.random() * 1.4 + 0.3,
+          spd: Math.random() * 0.18 + 0.04,
+          ang: Math.random() * Math.PI * 2,
+          a: Math.random() * 0.45 + 0.18,
+          col: Math.random() > 0.65 ? 'rgba(200,168,75,' : 'rgba(74,143,192,'
+        });
+      }
+      function drawParticles() {
+        for (var i = 0; i < parts.length; i++) {
+          var p = parts[i];
+          p.x += Math.cos(p.ang) * p.spd; p.y += Math.sin(p.ang) * p.spd;
+          p.ang += (Math.random() - 0.5) * 0.03;
+          if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+          if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+          ctx.fillStyle = p.col + (p.a * (0.7 + Math.sin(t * 0.04 + i) * 0.3)) + ')';
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+
+      // ── HUD CORNERS ──
+      function drawHUD() {
+        var sz = 22;
+        var a = 0.7 + Math.sin(t * 0.05) * 0.2;
+        var col = 'rgba(200,168,75,' + a + ')';
+        function bracket(x, y, fx, fy) {
+          ctx.strokeStyle = col; ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(x + fx * sz, y); ctx.lineTo(x, y); ctx.lineTo(x, y + fy * sz);
+          ctx.stroke();
+        }
+        bracket(22, 78, 1, 1); bracket(W - 22, 78, -1, 1);
+        bracket(22, H - 22, 1, -1); bracket(W - 22, H - 22, -1, -1);
+      }
+
+      // ── SCAN LINE ──
+      var scanY = 0;
+      function drawScan() {
+        scanY = (scanY + 0.6) % H;
+        var g = ctx.createLinearGradient(0, scanY - 8, 0, scanY + 8);
+        g.addColorStop(0, 'rgba(200,168,75,0)');
+        g.addColorStop(0.5, 'rgba(200,168,75,0.12)');
+        g.addColorStop(1, 'rgba(200,168,75,0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, scanY - 8, W, 16);
+      }
+
+      // ── MAIN LOOP ──
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        drawGrid();
+        drawScan();
+        drawParticles();
+        drawRadar();
+        drawCrosses();
+        drawTyping();
+        drawHUD();
+        t++;
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    });
+  </script>
+</body>
+
+</html>
