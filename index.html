@@ -1387,6 +1387,49 @@
     .scroll-ind {
       z-index: 10 !important;
     }
+
+    /* ─── KEY IMAGE POPUP ─── */
+   .image-popup {
+  margin: auto;
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  height: 70%;
+  padding: 0;
+  background: rgba(0, 0, 0, .88);
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  transition: opacity .0.5s ease;
+}
+
+.image-popup::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 100px 40px rgba(0, 0, 0, 0.95);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.image-popup.open {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.image-popup img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
   </style>
 </head>
 
@@ -1435,6 +1478,44 @@
       <path d="M12 5l-8 8h5v6h6v-6h5z" />
     </svg>
   </div>
+
+  <!-- Add more popup keys by copying this button and changing data-popup-key / data-popup-image. -->
+  <button class="image-popup-trigger" type="button" data-popup-key="q"
+    data-popup-image="https://www.rangersport.hu/upload/20250120130216-4495-1200-675.webp" hidden></button>
+  <div id="image-popup" class="image-popup" aria-hidden="true">
+    <img id="image-popup-img" src="" alt="">
+  </div>
+  <button class="image-popup-trigger" type="button" data-popup-key="w"
+    data-popup-image="https://babel.ua/static/content/nf3ydfsy/thumbs/1200x630/8/24/9ea2a3d45a641fd927eda133e9c1c248.jpg?v=5463" hidden></button>
+  <div id="image-popup" class="image-popup" aria-hidden="true">
+    <img id="image-popup-img" src="" alt="">
+  </div>
+  <button class="image-popup-trigger" type="button" data-popup-key="e"
+    data-popup-image="https://www.shutterstock.com/image-photo/aks74u-rifle-laying-on-wooden-600nw-2099368156.jpg" hidden></button>
+  <div id="image-popup" class="image-popup" aria-hidden="true">
+    <img id="image-popup-img" src="" alt="">
+  </div>
+  <button class="image-popup-trigger" type="button" data-popup-key="r"
+    data-popup-image="https://www.armyrecognition.com/templates/yootheme/cache/4a/Ecuador_seeks_to_purchase_64_million_worth_of_M4A1_rifles_and_support_packages_from_the_United_States_925_001-4a4f2aa4.jpeg" hidden></button>
+  <div id="image-popup" class="image-popup" aria-hidden="true">
+    <img id="image-popup-img" src="" alt="">
+  </div>
+  <button class="image-popup-trigger" type="button" data-popup-key="t"
+    data-popup-image="https://www.19fortyfive.com/wp-content/uploads/2021/12/FN-SCAR-16S.jpg" hidden></button>
+  <div id="image-popup" class="image-popup" aria-hidden="true">
+    <img id="image-popup-img" src="" alt="">
+  </div>
+  <button class="image-popup-trigger" type="button" data-popup-key="a"
+    data-popup-image="https://images.guns.com/prod/2023/11/15/65553f817136c6439b006990ff59b836215a46b4123a5.jpg" hidden></button>
+  <div id="image-popup" class="image-popup" aria-hidden="true">
+    <img id="image-popup-img" src="" alt="">
+  </div>
+  <button class="image-popup-trigger" type="button" data-popup-key="s"
+    data-popup-image="https://images.guns.com/prod/2023/11/15/65553f817136c6439b006990ff59b836215a46b4123a5.jpg" hidden></button>
+  <div id="image-popup" class="image-popup" aria-hidden="true">
+    <img id="image-popup-img" src="" alt="">
+  </div>
+  
 
   <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
   <section id="hero">
@@ -1635,7 +1716,7 @@
               <td><span class="dot-good">●</span></td>
             </tr>
             <tr>
-              <td>Надійність у бруді</td>
+              <td>Брудостійкість</td>
               <td class="hl-cell"><span class="dot-mid">●</span></td>
               <td><span class="dot-good">●</span></td>
               <td><span class="dot-mid">●</span></td>
@@ -1681,7 +1762,7 @@
         <p
           style="margin-top:1rem;font-size:.75rem;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;">
           <span class="dot-good">●</span> Відмінно &nbsp; <span class="dot-mid">●</span> Задовільно &nbsp; <span
-            class="dot-bad">●</span> Слабко
+            class="dot-bad">●</span> Погано
         </p>
       </div>
     </div>
@@ -1697,7 +1778,7 @@
           <h3>ПЕРЕВАГИ</h3>
           <ul class="pc-list">
             <li><span>🎯</span><span>Висока точність стрільби на середніх і далеких дистанціях</span></li>
-            <li><span>🔩</span><span>Модульна конструкція — легка зміна компонентів під бойові завдання</span></li>
+            <li><span>🔩</span><span>Модульна конструкція — легка заміна компонентів під бойові завдання</span></li>
             <li><span>⚙️</span><span>Сучасна ергономіка та зручне розміщення органів управління</span></li>
             <li><span>🌐</span><span>Повна сумісність із обладнанням і боєприпасами НАТО</span></li>
             <li><span>💡</span><span>Регульований приклад — адаптація під будь-якого стрільця</span></li>
@@ -1802,10 +1883,10 @@
 
       <div class="section-label reveal" style="color:#C0392B;">Контекст збройної боротьби</div>
       <h2 class="section-title reveal reveal-delay-1">UAR-15 і війна<br><span style="color:#C0392B;">проти
-          України</span></h2>
+          орків</span></h2>
 
       <p class="war-intro reveal reveal-delay-2">
-        Повномасштабне вторгнення Росії 24 лютого 2022 року докорінно змінило потреби українських збройних сил. Саме в
+        Повномасштабне вторгнення росії 24 лютого 2022 року докорінно змінило потреби українських збройних сил. Саме в
         умовах реальної війни UAR-15 пройшла справжнє бойове хрещення — і довела свою ефективність на різних ділянках
         фронту.
       </p>
@@ -1848,7 +1929,7 @@
               <div class="war-date">24 ЛЮТ<br>2022</div>
               <div class="war-body">
                 <div class="war-event-title">Повномасштабне вторгнення</div>
-                <div class="war-event-text">Росія розпочала масштабний напад по всій довжині кордону. ЗСУ перейшли на
+                <div class="war-event-text">росія розпочала масштабний напад по всій довжині кордону. ЗСУ перейшли на
                   посилений режим — попит на UAR-15 різко зріс. Zbroyar нарощує виробництво, пріоритет отримують
                   штурмові та розвідувальні підрозділи.</div>
               </div>
@@ -1998,6 +2079,56 @@
     function closeMobileMenu() {
       document.getElementById('mobile-nav').classList.remove('open');
     }
+
+    // IMAGE POPUP
+    const imagePopup = document.getElementById('image-popup');
+    const imagePopupImg = document.getElementById('image-popup-img');
+    const imagePopupTriggers = document.querySelectorAll('[data-popup-key][data-popup-image]');
+    const imagePopupByKey = new Map();
+    let activePopupKey = null;
+
+    imagePopupTriggers.forEach(trigger => {
+      const key = trigger.dataset.popupKey.toLowerCase();
+      const image = trigger.dataset.popupImage;
+      imagePopupByKey.set(key, image);
+
+      trigger.addEventListener('click', () => {
+        toggleImagePopup(key, image);
+      });
+    });
+
+    function openImagePopup(key, image) {
+      activePopupKey = key;
+      imagePopupImg.src = image;
+      imagePopup.classList.add('open');
+      imagePopup.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeImagePopup() {
+      activePopupKey = null;
+      imagePopup.classList.remove('open');
+      imagePopup.setAttribute('aria-hidden', 'true');
+      imagePopupImg.removeAttribute('src');
+    }
+
+    function toggleImagePopup(key, image) {
+      if (imagePopup.classList.contains('open') && activePopupKey === key) {
+        closeImagePopup();
+        return;
+      }
+
+      openImagePopup(key, image);
+    }
+
+    window.addEventListener('keydown', event => {
+      if (event.repeat || event.ctrlKey || event.metaKey || event.altKey) return;
+      const key = event.key.toLowerCase();
+      const image = imagePopupByKey.get(key);
+      if (!image) return;
+
+      event.preventDefault();
+      toggleImagePopup(key, image);
+    });
   </script>
 
   <!-- ═══════════════ TACTICAL BACKGROUND ENGINE ═══════════════ -->
