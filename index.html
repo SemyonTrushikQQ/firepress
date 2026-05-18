@@ -553,6 +553,90 @@
       color: var(--text-dim);
     }
 
+    /* ─── ATTACHMENTS ─── */
+    #attachments {
+      background: var(--dark3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .attachments-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, var(--dark3) 0%, rgba(19, 25, 32, .5) 40%, var(--dark3) 100%),
+        url('https://par30games.net/wp-content/uploads/2020/06/392059.jpg') center/cover no-repeat;
+      opacity: .3;
+    }
+
+    .attachments-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .attachment-card {
+      background: rgba(13, 17, 23, .8);
+      border: 1px solid rgba(200, 168, 75, .1);
+      border-top: 3px solid var(--gold-dim);
+      padding: 2rem 1.8rem;
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+
+    .attachment-card:hover {
+      background: rgba(19, 25, 32, .95);
+      border-top-color: var(--gold);
+      transform: translateY(-3px);
+    }
+
+    .attachment-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .attachment-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 1.2rem;
+    }
+
+    .attachment-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+    }
+
+    .attachment-list li {
+      font-size: .88rem;
+      line-height: 1.5;
+      color: var(--text-dim);
+      position: relative;
+      padding-left: 1.2rem;
+    }
+
+    .attachment-list li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--gold-dim);
+      font-size: 1.1rem;
+      line-height: 1.3;
+    }
+
+    @media (max-width: 900px) {
+      .attachments-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* ─── COMPARISON ─── */
     #compare {
       background: var(--dark2);
@@ -606,7 +690,7 @@
     }
 
     .compare-table td.hl-cell {
-      background: rgba(200, 168, 75, .05);
+      background: rgba(201, 163, 50, 0.05);
     }
 
     .dot-good {
@@ -698,7 +782,7 @@
       inset: 0;
       background:
         linear-gradient(180deg, rgba(6, 8, 9, 0.6) 0%, rgba(20, 4, 4, 0.75) 50%, rgba(6, 8, 9, 0.6) 100%),
-        url('https://static.ukrinform.com/photos/2020_07/thumb_files/630_360_1595861074-661.jpg') center/cover no-repeat;
+        url('https://scontent.fiev17-2.fna.fbcdn.net/v/t39.30808-6/589353568_1887339965374267_4958781780539085094_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=2_7SUpXFPVAQ7kNvwGw0QYp&_nc_oc=AdoZXoQvmNwaP24YJsH3aeHFjQwqmi6SFhmxGx4hcuGwVtazkC1flEoX8ZFPKKRaYv0&_nc_zt=23&_nc_ht=scontent.fiev17-2.fna&_nc_gid=Uv41D6ogTSeHxIjTxsVPzA&_nc_ss=7b289&oh=00_Af7Z79mLybaQeUFEgLfst9UZgMQiGsjwmwzc3zFDLFZQng&oe=6A113C58') center/cover no-repeat;
       z-index: 1;
     }
 
@@ -1373,7 +1457,8 @@
     .hero-bg-hist,
     .specs-bg,
     .combat-bg,
-    .conclusion-bg {
+    .conclusion-bg,
+    .attachments-bg {
       z-index: 1 !important;
     }
 
@@ -1389,47 +1474,47 @@
     }
 
     /* ─── KEY IMAGE POPUP ─── */
-   .image-popup {
-  margin: auto;
-  position: fixed;
-  inset: 0;
-  z-index: 20000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 70%;
-  height: 70%;
-  padding: 0;
-  background: rgba(0, 0, 0, .88);
-  opacity: 0;
-  pointer-events: none;
-  overflow: hidden;
-  transition: opacity .0.5s ease;
-}
+    .image-popup {
+      margin: auto;
+      position: fixed;
+      inset: 0;
+      z-index: 20000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 70%;
+      height: 70%;
+      padding: 0;
+      background: rgba(0, 0, 0, .88);
+      opacity: 0;
+      pointer-events: none;
+      overflow: hidden;
+      transition: opacity .0.5s ease;
+    }
 
-.image-popup::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  box-shadow: inset 0 0 100px 40px rgba(0, 0, 0, 0.95);
-  pointer-events: none;
-  z-index: 2;
-}
+    .image-popup::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 100px 40px rgba(0, 0, 0, 0.95);
+      pointer-events: none;
+      z-index: 2;
+    }
 
-.image-popup.open {
-  display: flex;
-  opacity: 1;
-  pointer-events: auto;
-}
+    .image-popup.open {
+      display: flex;
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-.image-popup img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: relative;
-  z-index: 1;
-}
+    .image-popup img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+    }
   </style>
 </head>
 
@@ -1446,6 +1531,7 @@
       <li><a href="#history">Історія</a></li>
       <li><a href="#specs">Характеристики</a></li>
       <li><a href="#mods">Модифікації</a></li>
+      <li><a href="#attachments">Обвіс</a></li>
       <li><a href="#compare">Порівняння</a></li>
       <li><a href="#procons">Аналіз</a></li>
       <li><a href="#combat">Застосування</a></li>
@@ -1461,6 +1547,7 @@
     <a href="#history" onclick="closeMobileMenu()">Історія</a>
     <a href="#specs" onclick="closeMobileMenu()">Характеристики</a>
     <a href="#mods" onclick="closeMobileMenu()">Модифікації</a>
+    <a href="#attachments" onclick="closeMobileMenu()">Обвіс</a>
     <a href="#compare" onclick="closeMobileMenu()">Порівняння</a>
     <a href="#procons" onclick="closeMobileMenu()">Аналіз</a>
     <a href="#combat" onclick="closeMobileMenu()">Застосування</a>
@@ -1486,17 +1573,20 @@
     <img id="image-popup-img" src="" alt="">
   </div>
   <button class="image-popup-trigger" type="button" data-popup-key="w"
-    data-popup-image="https://babel.ua/static/content/nf3ydfsy/thumbs/1200x630/8/24/9ea2a3d45a641fd927eda133e9c1c248.jpg?v=5463" hidden></button>
+    data-popup-image="https://babel.ua/static/content/nf3ydfsy/thumbs/1200x630/8/24/9ea2a3d45a641fd927eda133e9c1c248.jpg?v=5463"
+    hidden></button>
   <div id="image-popup" class="image-popup" aria-hidden="true">
     <img id="image-popup-img" src="" alt="">
   </div>
   <button class="image-popup-trigger" type="button" data-popup-key="e"
-    data-popup-image="https://www.shutterstock.com/image-photo/aks74u-rifle-laying-on-wooden-600nw-2099368156.jpg" hidden></button>
+    data-popup-image="https://www.shutterstock.com/image-photo/aks74u-rifle-laying-on-wooden-600nw-2099368156.jpg"
+    hidden></button>
   <div id="image-popup" class="image-popup" aria-hidden="true">
     <img id="image-popup-img" src="" alt="">
   </div>
   <button class="image-popup-trigger" type="button" data-popup-key="r"
-    data-popup-image="https://www.armyrecognition.com/templates/yootheme/cache/4a/Ecuador_seeks_to_purchase_64_million_worth_of_M4A1_rifles_and_support_packages_from_the_United_States_925_001-4a4f2aa4.jpeg" hidden></button>
+    data-popup-image="https://www.armyrecognition.com/templates/yootheme/cache/4a/Ecuador_seeks_to_purchase_64_million_worth_of_M4A1_rifles_and_support_packages_from_the_United_States_925_001-4a4f2aa4.jpeg"
+    hidden></button>
   <div id="image-popup" class="image-popup" aria-hidden="true">
     <img id="image-popup-img" src="" alt="">
   </div>
@@ -1506,16 +1596,18 @@
     <img id="image-popup-img" src="" alt="">
   </div>
   <button class="image-popup-trigger" type="button" data-popup-key="a"
-    data-popup-image="https://images.guns.com/prod/2023/11/15/65553f817136c6439b006990ff59b836215a46b4123a5.jpg" hidden></button>
+    data-popup-image="https://images.guns.com/prod/2023/11/15/65553f817136c6439b006990ff59b836215a46b4123a5.jpg"
+    hidden></button>
   <div id="image-popup" class="image-popup" aria-hidden="true">
     <img id="image-popup-img" src="" alt="">
   </div>
   <button class="image-popup-trigger" type="button" data-popup-key="s"
-    data-popup-image="https://pobazhajko.org.ua/upload/media/default/0001/01/68771102c1013b6279aeb4ae6d25132bf095c16c.jpeg" hidden></button>
+    data-popup-image="https://pobazhajko.org.ua/upload/media/default/0001/01/68771102c1013b6279aeb4ae6d25132bf095c16c.jpeg"
+    hidden></button>
   <div id="image-popup" class="image-popup" aria-hidden="true">
     <img id="image-popup-img" src="" alt="">
   </div>
-  
+
 
   <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
   <section id="hero">
@@ -1627,13 +1719,19 @@
                 кг</span></div>
             <div class="spec-row"><span class="spec-key">Ємність магазину</span><span class="spec-val">30
                 патронів</span></div>
-            <div class="spec-row"><span class="spec-key">Темп стрільби</span><span class="spec-val">700–900
+            <div class="spec-row"><span class="spec-key">Темп стрільби</span><span class="spec-val">~700 +– 100
                 постр/хв</span></div>
             <div class="spec-row"><span class="spec-key">Ефективна дальність</span><span class="spec-val">500–650
                 м</span></div>
             <div class="spec-row"><span class="spec-key">Початкова швидкість кулі</span><span class="spec-val">~850–900
                 м/с</span></div>
             <div class="spec-row"><span class="spec-key">Планки</span><span class="spec-val">Picatinny (NATO)</span>
+            </div>
+            <div class="spec-row"><span class="spec-key">Довжина ствола</span><span class="spec-val">UAR-15 / S / MS (
+                360 / 290 / 403 )</span>
+            </div>
+            <div class="spec-row"><span class="spec-key">Режим стрільби</span><span
+                class="spec-val">Автоматичний/Поодинокий</span>
             </div>
             <div class="spec-row"><span class="spec-key">Приклад</span><span class="spec-val">Телескопічний,
                 регульований</span></div>
@@ -1671,7 +1769,7 @@
         </div>
         <div class="mod-block">
           <div class="mod-num">02</div>
-          <div class="mod-name">UAR-15S</div>
+          <div class="mod-name">UAR-15S/1</div>
           <div class="mod-desc">Укорочена версія зі скороченим стволом. Ідеальна для штурмових операцій, боїв у
             приміщеннях і транспортних засобах.</div>
         </div>
@@ -1686,6 +1784,114 @@
           <div class="mod-name">Цивільна версія</div>
           <div class="mod-desc">Напівавтоматична модифікація для спортивної стрільби та цивільного ринку. Зберігає
             модульність і сумісність із обладнанням.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ ATTACHMENTS ═══════════════════════════════ -->
+  <section id="attachments">
+    <div class="attachments-bg"></div>
+    <div class="section-inner">
+      <div class="section-label reveal">Кастомізація</div>
+      <h2 class="section-title reveal reveal-delay-1">Обвіс та аксесуари</h2>
+
+      <div class="attachments-grid reveal reveal-delay-2">
+        <div class="attachment-card">
+          <span class="attachment-icon">🎯</span>
+          <div class="attachment-title">Прицільні системи</div>
+          <ul class="attachment-list">
+            <li>Коліматорний приціл — для швидкого наведення на ближній дистанції</li>
+            <li>Голографічний приціл — швидше захоплення цілі, широкий огляд</li>
+            <li>Оптичний приціл (1–4x, 1–6x, 3–9x) — для середньої / дальньої дистанції</li>
+            <li>Призматичний приціл</li>
+            <li>Складні механічні прицільні пристрої (BUIS)</li>
+            <li>Магніфер (збільшувач) для коліматора</li>
+          </ul>
+        </div>
+
+        <div class="attachment-card">
+          <span class="attachment-icon">🔦</span>
+          <div class="attachment-title">Тактичний обвіс</div>
+          <ul class="attachment-list">
+            <li>ЛЦВ (лазерний цілевказівник)</li>
+            <li>Тактичний ліхтар</li>
+            <li>ІЧ-лазер / ІЧ-підсвітка (для роботи з ПНБ)</li>
+          </ul>
+        </div>
+
+        <div class="attachment-card">
+          <span class="attachment-icon">✊</span>
+          <div class="attachment-title">Руків’я</div>
+          <ul class="attachment-list">
+            <li>Переднє вертикальне руків’я</li>
+            <li>Кутове руків’я (AFG)</li>
+            <li>Обмежувач хвату (hand stop)</li>
+          </ul>
+        </div>
+
+        <div class="attachment-card">
+          <span class="attachment-icon">🦾</span>
+          <div class="attachment-title">Приклад</div>
+          <ul class="attachment-list">
+            <li>Телескопічний регульований приклад</li>
+            <li>Полегшений приклад</li>
+            <li>Тактичний приклад із щокою / упором</li>
+          </ul>
+        </div>
+
+        <div class="attachment-card">
+          <span class="attachment-icon">🔥</span>
+          <div class="attachment-title">Дульні пристрої</div>
+          <ul class="attachment-list">
+            <li>Полум’ягасник</li>
+            <li>Дульне гальмо-компенсатор</li>
+            <li>Гібридний компенсатор</li>
+            <li>Глушник / саундмодератор</li>
+          </ul>
+        </div>
+
+        <div class="attachment-card">
+          <span class="attachment-icon">🛡️</span>
+          <div class="attachment-title">Цівка та кріплення</div>
+          <ul class="attachment-list">
+            <li>M-LOK панелі</li>
+            <li>Планки Picatinny</li>
+            <li>Захисні накладки на цівку</li>
+          </ul>
+        </div>
+
+        <div class="attachment-card">
+          <span class="attachment-icon">🗃️</span>
+          <div class="attachment-title">Магазини</div>
+          <ul class="attachment-list">
+            <li>Стандартні на 30 набоїв</li>
+            <li>Збільшеної місткості</li>
+            <li>Прозорі магазини</li>
+            <li>Петлі для швидкого перезаряджання</li>
+          </ul>
+        </div>
+
+        <div class="attachment-card">
+          <span class="attachment-icon">🎗️</span>
+          <div class="attachment-title">Ремінні системи</div>
+          <ul class="attachment-list">
+            <li>Одноточковий ремінь</li>
+            <li>Двоточковий ремінь</li>
+            <li>QD-антабки</li>
+          </ul>
+        </div>
+
+        <div class="attachment-card">
+          <span class="attachment-icon">➕</span>
+          <div class="attachment-title">Додатково</div>
+          <ul class="attachment-list">
+            <li>Сошки</li>
+            <li>Вловлювач гільз</li>
+            <li>Розширена кнопка скидання магазину</li>
+            <li>Збільшена рукоятка заряджання</li>
+            <li>Матчевий спусковий механізм</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -1784,6 +1990,9 @@
             <li><span>💡</span><span>Регульований приклад — адаптація під будь-якого стрільця</span></li>
             <li><span>🔭</span><span>Підтримка будь-яких сучасних прицілів, ліхтарів і глушників</span></li>
             <li><span>⚡</span><span>Менша віддача порівняно з АК-серією</span></li>
+            <li><span>🙏</span><span>Двостороннє управління (зручна робота як для лівої, так і для правої руки)</span>
+            </li>
+
           </ul>
         </div>
         <div class="pc-col cons reveal reveal-delay-2">
